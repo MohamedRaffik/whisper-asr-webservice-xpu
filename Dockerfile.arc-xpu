@@ -44,4 +44,4 @@ RUN pip install poetry==1.6.1 setuptools wheel && \
 	sudo apt-get clean && \
 	sudo rm -rf  /var/lib/apt/lists/*
 
-ENTRYPOINT ["whisper-asr-webservice"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:9000", "--workers", "1", "--timeout", "0", "app.webservice:app", "-k", "uvicorn.workers.UvicornWorker"]
