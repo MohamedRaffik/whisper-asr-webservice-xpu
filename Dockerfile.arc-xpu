@@ -37,11 +37,11 @@ RUN pip install poetry==1.6.1 setuptools wheel && \
 	pip install --upgrade git+https://github.com/leuc/whisper.git@b4bc9b280a2db1515782e0d68a02f90cebcd438e && \
 	export PATH=$PATH:/home/user/.local/bin && \
 	git clone https://github.com/ahmetoner/whisper-asr-webservice.git app && \
-	cd app && git checkout 51c6eceda0836d145048224693c69c2706d78f46 && \
+	cd app && git checkout 539f58521fbee4e579eeb49f44e22ead97005b5c && \
 	rm poetry.lock pyproject.toml && cp /deps/* ./ && \
 	poetry config virtualenvs.create false && \
 	poetry lock && poetry install --no-interaction && \
 	sudo apt-get clean && \
 	sudo rm -rf  /var/lib/apt/lists/*
 
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:9000", "--workers", "1", "--timeout", "0", "app.webservice:app", "-k", "uvicorn.workers.UvicornWorker"]
+ENTRYPOINT ["whisper-asr-webservice"]
