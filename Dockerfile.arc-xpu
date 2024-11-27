@@ -5,11 +5,17 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 USER root
 
+RUN apt-get install -y gpg-agent wget && \
+	wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | \
+	gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg && \
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu jammy/lts/2350 unified" | \
+	tee /etc/apt/sources.list.d/intel-gpu-jammy.list
+
 RUN apt update && \
-    apt install -y --no-install-recommends --fix-missing \
-    ffmpeg && \
-    apt-get clean && \
-    rm -rf  /var/lib/apt/lists/*
+	apt install -y --no-install-recommends --fix-missing \
+	ffmpeg && \
+	apt-get clean && \
+	rm -rf  /var/lib/apt/lists/*
 
 #ENV LD_LIBRARY_PATH=/opt/intel/oneapi/lib:/opt/intel/oneapi/lib/intel64:$LD_LIBRARY_PATH
 #ENV ONEAPI_ROOT=/opt/intel/oneapi
